@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Cyndia 🎂</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --black: #0a0a0a;
+            --dark: #141414;
+            --mid: #2a2a2a;
+            --gray: #888;
+            --light: #c8c8c8;
+            --white: #f5f3f0;
+            --pink: #e8a5b5;
+            --pink-soft: #f0c4ce;
+            --pink-glow: rgba(232, 165, 181, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 300;
+            overflow-x: hidden;
+        }
+
+        #canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #mbtn {
+            position: fixed;
+            top: 1.2rem;
+            right: 1.4rem;
+            z-index: 999;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, .15);
+            background: rgba(10, 10, 10, .7);
+            color: var(--pink);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            transition: all .3s;
+        }
+
+        #mbtn:hover {
+            border-color: var(--pink);
+            background: var(--pink-glow);
+        }
+
+        /* ── PAGES ── */
+        .page {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1.5rem;
+            text-align: center;
+        }
+
+        .page.hidden {
+            display: none !important;
+        }
+
+        /* ── HERO ── */
+        .htag {
+            font-size: .7rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--pink);
+            opacity: 0;
+            animation: fadeUp .7s ease .4s forwards;
+            margin-bottom: 2rem;
+        }
+
+        .htitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2.2rem, 7vw, 5rem);
+            line-height: 1.15;
+            opacity: 0;
+            animation: fadeUp .9s ease .8s forwards;
+        }
+
+        .htitle em {
+            font-style: italic;
+            color: var(--pink-soft);
+        }
+
+        .hemoji {
+            display: block;
+            font-size: clamp(1.5rem, 5vw, 2.6rem);
+            margin-top: .4rem;
+            opacity: 0;
+            animation: fadeUp .7s ease 1.2s forwards;
+        }
+
+        .div-line {
+            width: 40px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pink), transparent);
+            margin: 2rem auto;
+            opacity: 0;
+            animation: fadeIn .8s ease 1.6s forwards;
+        }
+
+        .hsub {
+            font-size: .9rem;
+            color: var(--gray);
+            font-style: italic;
+            opacity: 0;
+            animation: fadeUp .7s ease 1.9s forwards;
+        }
+
+        .cta-wrap {
+            margin-top: 2.4rem;
+            opacity: 0;
+            animation: fadeUp .7s ease 2.2s forwards;
+        }
+
+        #cta {
+            background: transparent;
+            border: 1px solid rgba(232, 165, 181, .4);
+            color: var(--pink-soft);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .8rem;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+            padding: .85rem 2.2rem;
+            cursor: pointer;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #cta::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--pink-glow);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform .35s ease;
+        }
+
+        #cta:hover::before {
+            transform: scaleX(1);
+        }
+
+        #cta:hover {
+            border-color: var(--pink);
+            color: #fff;
+        }
+
+        #cta.wiggle {
+            animation: wiggle .45s ease;
+        }
+
+        /* ── MESSAGE ── */
+        #p-msg {
+            text-align: left;
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .mtag {
+            font-size: .7rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--pink);
+            margin-bottom: 2.8rem;
+            display: block;
+        }
+
+        .tblock {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(1.3rem, 3.5vw, 1.75rem);
+            font-weight: 300;
+            line-height: 1.8;
+            color: var(--light);
+            margin-bottom: 2.2rem;
+            min-height: 2.4em;
+        }
+
+        .tblock em {
+            color: var(--pink-soft);
+            font-style: italic;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background: var(--pink);
+            margin-left: 2px;
+            vertical-align: middle;
+            animation: blink .85s step-end infinite;
+        }
+
+        .dnbtn {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .78rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            margin-top: 1rem;
+            transition: color .3s;
+            opacity: 0;
+            transition: opacity .7s ease, color .3s ease;
+        }
+
+        .dnbtn:hover {
+            color: var(--pink-soft);
+        }
+
+        .dnbtn.show {
+            opacity: 1;
+        }
+
+        .dnbtn svg {
+            transition: transform .3s;
+        }
+
+        .dnbtn:hover svg {
+            transform: translateY(3px);
+        }
+
+        /* ── GALLERY ── */
+        #p-gal {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        .gtag {
+            font-size: .7rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--pink);
+            margin-bottom: .6rem;
+        }
+
+        .gtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: clamp(1.6rem, 5vw, 2.8rem);
+            margin-bottom: 2.4rem;
+        }
+
+        .ggrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: .9rem;
+        }
+
+        .gcard {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+            background: var(--dark);
+        }
+
+        .gcard img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(25%);
+            transition: transform .7s cubic-bezier(.25, .46, .45, .94), filter .5s;
+        }
+
+        .gcard:hover img {
+            transform: scale(1.08);
+            filter: grayscale(0);
+        }
+
+        .gcap {
+            position: absolute;
+            bottom: .8rem;
+            left: .8rem;
+            right: .8rem;
+            font-size: .68rem;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+            color: #fff;
+            opacity: 0;
+            transform: translateY(5px);
+            transition: all .4s;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .gcard::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 50%, rgba(0, 0, 0, .65) 100%);
+            opacity: 0;
+            transition: opacity .4s;
+        }
+
+        .gcard:hover::after {
+            opacity: 1;
+        }
+
+        .gcard:hover .gcap {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── CLOSING ── */
+        .ctag {
+            font-size: .7rem;
+            letter-spacing: .28em;
+            text-transform: uppercase;
+            color: var(--pink);
+            margin-bottom: 1.8rem;
+        }
+
+        .cbig {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: clamp(2rem, 7vw, 5rem);
+            line-height: 1.2;
+        }
+
+        .cbig em {
+            font-style: italic;
+            color: var(--pink-soft);
+        }
+
+        .csub {
+            font-size: clamp(.85rem, 2vw, 1rem);
+            color: var(--gray);
+            font-style: italic;
+            margin-top: 1.4rem;
+        }
+
+        #hugbtn {
+            margin-top: 2.8rem;
+            background: transparent;
+            border: 1px solid rgba(232, 165, 181, .35);
+            color: var(--pink-soft);
+            font-family: 'DM Sans', sans-serif;
+            font-size: .8rem;
+            letter-spacing: .15em;
+            text-transform: uppercase;
+            padding: .85rem 2.2rem;
+            cursor: pointer;
+            transition: all .3s;
+        }
+
+        #hugbtn:hover {
+            background: var(--pink-glow);
+            border-color: var(--pink);
+            color: #fff;
+        }
+
+        /* ── BURST ── */
+        .bh {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            animation: burstFall 2.4s ease-out forwards;
+        }
+
+        /* ── KEYFRAMES ── */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0
+            }
+
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        @keyframes wiggle {
+            0% {
+                transform: translateX(0)
+            }
+
+            20% {
+                transform: translateX(-8px)
+            }
+
+            40% {
+                transform: translateX(8px)
+            }
+
+            60% {
+                transform: translateX(-5px)
+            }
+
+            80% {
+                transform: translateX(5px)
+            }
+
+            100% {
+                transform: translateX(0)
+            }
+        }
+
+        @keyframes burstFall {
+            0% {
+                transform: translateY(0) scale(.6) rotate(0deg);
+                opacity: 1
+            }
+
+            80% {
+                opacity: .9
+            }
+
+            100% {
+                transform: translateY(120px) scale(1.1) rotate(25deg);
+                opacity: 0
+            }
+        }
+
+        @keyframes pageIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @media(max-width:600px) {
+            .ggrid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .gcard:nth-child(5),
+            .gcard:nth-child(6) {
+                display: none;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--black)
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--mid);
+            border-radius: 2px
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="canvas"></canvas>
+    <button id="mbtn" onclick="toggleMusic()">♪</button>
+    <audio id="aud" loop>
+        <source src="musik.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- HERO -->
+    <div class="page" id="p-hero">
+        <p class="htag" id="hdate"></p>
+        <h1 class="htitle">Selamat Ulang Tahun,<br><em>Cyndia Maharani Putri</em><span class="hemoji">🎂</span></h1>
+        <div class="div-line"></div>
+        <p class="hsub">ada sesuatu yang mau aku kasih tau...</p>
+        <div class="cta-wrap">
+            <button id="cta" onclick="handleCTA()">klik pelan-pelan ya</button>
+        </div>
+    </div>
+
+    <!-- MESSAGE -->
+    <div class="page hidden" id="p-msg">
+        <span class="mtag">untuk cyndia, dari aku 🤍</span>
+        <div class="tblock" id="t1"></div>
+        <div class="tblock" id="t2"></div>
+        <div class="tblock" id="t3"></div>
+        <div class="tblock" id="t4"></div>
+        <button class="dnbtn" id="go-gal" onclick="goTo('gal')">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            lanjut yuk
+        </button>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="page hidden" id="p-gal">
+        <p class="gtag">momen kita 🤍</p>
+        <h2 class="gtitle">setiap detiknya berharga</h2>
+        <div class="ggrid">
+            <div class="gcard"><img src="6.jpg"
+                    alt=""><span class="gcap">awal kita</span></div>
+            <div class="gcard"><img src="2.jpg"
+                    alt=""><span class="gcap">bahagia</span></div>
+            <div class="gcard"><img src="4.jpg"
+                    alt=""><span class="gcap">hangat</span></div>
+            <div class="gcard"><img src="3.jpg"
+                    alt=""><span class="gcap">senja kita</span></div>
+            <div class="gcard"><img src="5.jpg"
+                    alt=""><span class="gcap">apa adanya</span></div>
+            <div class="gcard"><img src="1.jpg"
+                    alt=""><span class="gcap">dan seterusnya</span></div>
+        </div>
+        <button class="dnbtn show" style="margin-top:2.4rem;" onclick="goTo('close')">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            satu lagi
+        </button>
+    </div>
+
+    <!-- CLOSING -->
+    <div class="page hidden" id="p-close">
+        <p class="ctag">kata terakhir</p>
+        <h2 class="cbig">aku beruntung<br>punya <em>kamu</em> 💖</h2>
+        <p class="csub">dan semoga aku masih jadi alasan kamu senyum tiap hari</p>
+        <button id="hugbtn" onclick="hugMe()">peluk virtual 🤗</button>
+    </div>
+
+    <script>
+        /* ── PARTICLES ── */
+        const cv = document.getElementById('canvas');
+        const cx = cv.getContext('2d');
+        let W, H, pts = [];
+
+        function rsz() { W = cv.width = innerWidth; H = cv.height = innerHeight; }
+        rsz(); window.addEventListener('resize', rsz);
+
+        function mkPart(fresh) {
+            return {
+                x: Math.random() * W,
+                y: fresh ? Math.random() * H : H + 20,
+                sz: Math.random() * 6 + 3,
+                sp: Math.random() * 0.4 + 0.15,
+                dr: (Math.random() - 0.5) * 0.4,
+                op: Math.random() * 0.22 + 0.05,
+                wb: Math.random() * Math.PI * 2,
+                ws: (Math.random() - 0.5) * 0.025,
+                heart: Math.random() < 0.55
+            };
+        }
+
+        for (let i = 0; i < 50; i++) pts.push(mkPart(true));
+
+        function drawHeart(x, y, s) {
+            cx.beginPath();
+            cx.moveTo(x, y + s * 0.3);
+            cx.bezierCurveTo(x, y, x - s, y, x - s, y + s * 0.3);
+            cx.bezierCurveTo(x - s, y + s * 0.7, x, y + s * 1.1, x, y + s * 1.3);
+            cx.bezierCurveTo(x, y + s * 1.1, x + s, y + s * 0.7, x + s, y + s * 0.3);
+            cx.bezierCurveTo(x + s, y, x, y, x, y + s * 0.3);
+            cx.fill();
+        }
+
+        (function loop() {
+            cx.clearRect(0, 0, W, H);
+            pts.forEach(p => {
+                p.y -= p.sp;
+                p.wb += p.ws;
+                p.x += Math.sin(p.wb) * 0.5 + p.dr;
+                if (p.y < -20) Object.assign(p, mkPart(false));
+                cx.save();
+                cx.globalAlpha = p.op;
+                if (p.heart) { cx.fillStyle = '#e8a5b5'; drawHeart(p.x, p.y, p.sz); }
+                else { cx.fillStyle = '#bbb'; cx.beginPath(); cx.arc(p.x, p.y, p.sz * 0.4, 0, Math.PI * 2); cx.fill(); }
+                cx.restore();
+            });
+            requestAnimationFrame(loop);
+        })();
+
+        /* ── DATE ── */
+        const mo = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const nd = new Date();
+        document.getElementById('hdate').textContent = `${nd.getDate()} ${mo[nd.getMonth()]} ${nd.getFullYear()}`;
+
+        /* ── MUSIC ── */
+        const aud = document.getElementById('aud');
+        const mb = document.getElementById('mbtn');
+        let mOn = false;
+        aud.volume = 0.35;
+
+        function toggleMusic() {
+            if (mOn) { aud.pause(); mb.textContent = '♪'; mb.style.color = '#888'; mOn = false; }
+            else { aud.play().catch(() => { }); mb.textContent = '♫'; mb.style.color = 'var(--pink)'; mOn = true; }
+        }
+
+        document.addEventListener('click', function once() {
+            if (!mOn) { aud.play().then(() => { mb.textContent = '♫'; mb.style.color = 'var(--pink)'; mOn = true; }).catch(() => { }); }
+            document.removeEventListener('click', once);
+        }, true);
+
+        /* ── PAGE NAV ── */
+        const pageMap = { hero: 'p-hero', msg: 'p-msg', gal: 'p-gal', close: 'p-close' };
+        let msgStarted = false;
+
+        function goTo(name) {
+            Object.values(pageMap).forEach(id => {
+                const el = document.getElementById(id);
+                el.classList.add('hidden');
+                el.style.animation = '';
+            });
+
+            const el = document.getElementById(pageMap[name]);
+            el.classList.remove('hidden');
+            void el.offsetWidth; // reflow
+            el.style.animation = 'pageIn .85s ease forwards';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            if (name === 'msg' && !msgStarted) {
+                msgStarted = true;
+                setTimeout(runTyping, 300);
+            }
+        }
+
+        /* ── CTA ── */
+        let ctaClicks = 0;
+        function handleCTA() {
+            ctaClicks++;
+            if (ctaClicks === 1) {
+                const b = document.getElementById('cta');
+                b.classList.remove('wiggle');
+                void b.offsetWidth;
+                b.classList.add('wiggle');
+                b.textContent = 'aku bilang pelan-pelan 😄';
+                return;
+            }
+            goTo('msg');
+        }
+
+        /* ── TYPING ── */
+        const msgs = [
+            {
+                id: 't1',
+                text: `haaii sayangg 🫶🏻
+harii inii ulang tahunnn kamuu yaaa, akhirnyaa nambahh tuaa jugaaa wkwk tapii ttep yang faisss sayangg kokkk`,
+                cheeky: false
+            },
+            {
+                id: 't2',
+                text: `makasii banyaa yaaa udahh sabarr ngadepinn faisss yang kadangg nyebelin, cuekk, samaa sukaa anehh sendiri  tapii kamuu masii bertahann, berarti emangg kamu kuattt yaaa
+
+maapp jugaa yaaa kalaoo faisss masii seringg kurang peka atauu malahh bikin kamuu kesel. faisss usahaa pelan-pelann buatt jadii yang lebiih baikk buatt kamuu, walaupun kadangg masihh sukaa errorr dikitt`,
+                cheeky: false
+            },
+            {
+                id: 't3',
+                text: `teruss maapp bangett yaaa di harii spesiaall kamuu inii faisss belumm bisaa ngasii apa apaa. janganng sedihh yaaa, nantiin ajaa kalo faisss udahh jadii orangg suksesss, baru faisss traktirr yang banyaa 
+
+tapii seriuss, faisss senengg bangett punya kamuu. kamuu ituu udahh lebihh darii cukup buatt faisss. janganng kemanaa-manah yaaa, sini ajaa samaa faisss terusss`,
+                cheeky: true
+            },
+            {
+                id: 't4',
+                text: `semogaaa di umur baruu inii kamuu makin bahagiaaa, makin dewasa (walaupun faisss tauu kamu kadangg masihh bocill wkwkwk tapiii akuu sukaaa semua hal ituuu), dan semuaa yang kamuu pengenn pelan-pelann kecapaiii
+
+happy birthdayyy sayangg 🎂🤍
+janganng lupaa, kamuu punyaa faisss yang selaluu kangenn kamuuu 🫶🏻`,
+                cheeky: true
+            }
+        ];
+
+        function runTyping() {
+            let delay = 0;
+            msgs.forEach((m, i) => {
+                setTimeout(() => typeOne(m, i === msgs.length - 1), delay);
+                delay += m.text.length * 30 + 900;
+            });
+        }
+
+        function typeOne(m, isLast) {
+            const el = document.getElementById(m.id);
+            el.innerHTML = '<span class="cursor"></span>';
+            let i = 0;
+
+            function tick() {
+                if (i < m.text.length) {
+                    const cur = el.querySelector('.cursor');
+                    el.insertBefore(document.createTextNode(m.text[i]), cur);
+                    i++;
+                    setTimeout(tick, 28 + Math.random() * 14);
+                } else {
+                    const cur = el.querySelector('.cursor');
+                    if (cur) cur.remove();
+                    if (m.cheeky) el.innerHTML = `<em>${el.textContent}</em>`;
+                    if (isLast) {
+                        setTimeout(() => {
+                            document.getElementById('go-gal').classList.add('show');
+                        }, 500);
+                    }
+                }
+            }
+            tick();
+        }
+
+        /* ── HUG ── */
+        function hugMe() {
+            const em = ['💖', '💗', '💓', '💕', '🌸', '✨', '💝', '🌷'];
+            for (let i = 0; i < 32; i++) {
+                setTimeout(() => {
+                    const d = document.createElement('div');
+                    d.className = 'bh';
+                    d.textContent = em[Math.floor(Math.random() * em.length)];
+                    d.style.cssText = `left:${10 + Math.random() * 80}vw;top:${20 + Math.random() * 50}vh;font-size:${1.2 + Math.random() * 1.6}rem;animation-duration:${1.8 + Math.random() * .8}s;`;
+                    document.body.appendChild(d);
+                    setTimeout(() => d.remove(), 3000);
+                }, i * 65);
+            }
+        }
+    </script>
+</body>
+
+</html>
